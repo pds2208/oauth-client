@@ -1,8 +1,8 @@
 package uk.gov.ons.configuration
 
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
+import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.{Bean, ComponentScan, Configuration}
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -16,19 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @Configuration
 @EnableOAuth2Client
 @EnableWebSecurity
-class KeycloakConfiguration extends WebSecurityConfigurerAdapter {
-
-  @Value("${security.oauth2.client.clientId}")
-   var clientId : String = _
-
-  @Value("${security.oauth2.client.clientSecret}")
-   var clientSecret : String = _
-
-  @Value("${security.oauth2.client.accessTokenUri}")
-   var accessTokenUri : String = _
-
-  @Value("${security.oauth2.client.userAuthorizationUri}")
-   var userAuthorizationUri : String = _
+@ComponentScan(basePackageClasses = Array(classOf[KeycloakSecurityComponents]))
+class KeycloakConfiguration @Autowired()(config: ServiceConfiguration) extends WebSecurityConfigurerAdapter {
 
   @throws[Exception]
   override def configure(web: WebSecurity): Unit = {
@@ -37,20 +26,19 @@ class KeycloakConfiguration extends WebSecurityConfigurerAdapter {
 
   @throws[Exception]
   override protected def configure(http: HttpSecurity): Unit = {
-    println("XXXXX: " + clientSecret)
     super.configure(http)
   }
 
   @Bean
-  def oAuth2ProtectedResourceDetails: OAuth2ProtectedResourceDetails = {
-    val details = new ClientCredentialsResourceDetails
-    details.setClientId(clientId)
-    details.setClientSecret(clientSecret)
-    details.setAccessTokenUri(accessTokenUri)
+  def oAuth2ProtectedResourceDetails () : OAuth2ProtectedResourceDetails = {
+    val details : ClientCredentialsResourceDetails = new ClientCredentialsResourceDetails
+    details.setClientId(config.clientId)
+    details.setClientSecret(config.clientSecret)
+    details.setAccessTokenUri(config.accessTokenUri)
     details
   }
 
   @Bean
   def createRestTemplate(clientContext: OAuth2ClientContext) =
-    new OAuth2RestTemplate(oAuth2ProtectedResourceDetails, clientContext)
+    new OAuth2RestTemplate(oAuth2ProtectedResourceDetails(), clientContext)
 }

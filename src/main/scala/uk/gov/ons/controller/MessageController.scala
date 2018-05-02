@@ -1,16 +1,13 @@
 package uk.gov.ons.controller
 
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
+import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.http.MediaType
 import org.springframework.security.oauth2.client.OAuth2RestTemplate
-import org.springframework.web.bind.annotation.{RequestMapping, RequestMethod, ResponseBody, RestController}
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.{RequestMapping, RequestMethod, ResponseBody}
 
-@RestController
-class MessageController {
-
-  @Bean
-  var template: OAuth2RestTemplate = _
+@Controller
+class MessageController @Autowired()(template: OAuth2RestTemplate) {
 
   @Value("${secured.service.url}")
   var endpoint: String = _

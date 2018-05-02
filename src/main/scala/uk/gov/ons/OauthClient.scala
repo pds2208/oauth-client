@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan
 import uk.gov.ons.configuration.KeycloakConfiguration
 import uk.gov.ons.controller.MessageController
 
-
 object OauthClient {
   def main(args: Array[String]) : Unit = {
     SpringApplication.run(classOf[OauthClient], args :_ *)
