@@ -9,7 +9,7 @@ lazy val root = (project in file(".")).
       version := "0.1.0-SNAPSHOT"
     )),
 
-    name := "Hello",
+    name := "ONS OAuth Client",
     libraryDependencies ++= Seq(
       "org.springframework.boot" % "spring-boot-starter-web" % "1.5.3.RELEASE",
       "org.springframework.boot" % "spring-boot-configuration-processor" % "1.5.3.RELEASE",
