@@ -1,22 +1,31 @@
 server:
     port: 8091
 
-secured.service.url: http://localhost:8090/message
+message.service.url: http://localhost:8090/message
 
+spring.profiles.active: ca
+---
 logging.level.org.springframework.web: debug
 logging.level.org.keycloak : trace
 logging.level.org.springframework.security: trace
 logging.level.org.springframework.web-security: trace
 
-security:
-  basic:
-    enabled: false
+---
+# For keycloak
+spring:
+  profiles: keycloak
 
-  oauth2:
-    client:
-      clientId: product-service
-      clientSecret: 6d30a0b4-eec5-417c-b2d5-b18a1b11e8f1
-      accessTokenUri: http://localhost:8180/auth/realms/SpringBoot/protocol/openid-connect/token
-      userAuthorizationUri: http://localhost:8180/auth/realms/SpringBoot/protocol/openid-connect/auth
-    resource:
-      userInfoUri: http://localhost:8180/auth/realms/SpringBoot/protocol/openid-connect/userinfo
+oauth:
+  clientId: product-service
+  clientSecret: 6d30a0b4-eec5-417c-b2d5-b18a1b11e8f1
+  accessTokenUri: http://localhost:8180/auth/realms/SpringBoot/protocol/openid-connect/token
+
+---
+# For CA
+spring:
+  profiles: ca
+
+oauth:
+  clientId: product-service
+  clientSecret: 9014b72f-f8d1-4e8b-9db9-877e56f5ab9f
+  accessTokenUri: https://localhost:8443/auth/oauth/v2/token

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.{RequestMapping, RequestMethod, R
 @Controller
 class MessageController @Autowired()(template: OAuth2RestTemplate) {
 
-  @Value("${secured.service.url}")
+  @Value("${message.service.url}")
   var endpoint: String = _
 
   @RequestMapping(path = Array("/message"),

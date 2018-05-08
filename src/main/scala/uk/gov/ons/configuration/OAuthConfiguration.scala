@@ -14,13 +14,13 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableWebSecurity
 class OAuthConfiguration extends WebSecurityConfigurerAdapter {
 
-  @Value("${security.oauth2.client.clientId}")
+  @Value("${oauth.clientId}")
    var clientId : String = _
 
-  @Value("${security.oauth2.client.clientSecret}")
+  @Value("${oauth.clientSecret}")
    var clientSecret : String = _
 
-  @Value("${security.oauth2.client.accessTokenUri}")
+  @Value("${oauth.accessTokenUri}")
    var accessTokenUri : String = _
 
   @throws[Exception]
