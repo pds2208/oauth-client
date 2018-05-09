@@ -25,7 +25,8 @@ oauth:
 spring:
   profiles: ca
 
+# The client Id & Secret can be found in the OAuth management app
 oauth:
-  clientId: product-service
+  clientId: 323ae95f-6bdc-4617-8613-bc86e255a3b1
   clientSecret: 9014b72f-f8d1-4e8b-9db9-877e56f5ab9f
   accessTokenUri: https://localhost:8443/auth/oauth/v2/token
