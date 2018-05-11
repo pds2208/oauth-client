@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.{Bean, Configuration}
 import org.springframework.security.config.annotation.web.builders.{HttpSecurity, WebSecurity}
 import org.springframework.security.config.annotation.web.configuration.{EnableWebSecurity, WebSecurityConfigurerAdapter}
-import org.springframework.security.oauth2.client.{OAuth2ClientContext, OAuth2RestTemplate}
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails
+import org.springframework.security.oauth2.client.{OAuth2ClientContext, OAuth2RestTemplate}
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client
 
 @Configuration
@@ -22,6 +22,9 @@ class OAuthConfiguration extends WebSecurityConfigurerAdapter {
 
   @Value("${oauth.accessTokenUri}")
    var accessTokenUri : String = _
+
+  @Value("${oauth.scope}")
+  var accessScope : String = _
 
   @throws[Exception]
   override def configure(web: WebSecurity): Unit = {
@@ -39,6 +42,12 @@ class OAuthConfiguration extends WebSecurityConfigurerAdapter {
     details.setClientId(clientId)
     details.setClientSecret(clientSecret)
     details.setAccessTokenUri(accessTokenUri)
+
+    val l : Array[String] = accessScope.split(",").map(_.trim)
+    import collection.JavaConversions._
+    val m: java.util.List[String] = l.toSeq
+
+    details.setScope(m)
     details
   }
 
