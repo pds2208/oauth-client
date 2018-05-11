@@ -9,6 +9,8 @@ import org.springframework.security.oauth2.client.token.grant.client.ClientCrede
 import org.springframework.security.oauth2.client.{OAuth2ClientContext, OAuth2RestTemplate}
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client
 
+import scala.collection.JavaConverters
+
 @Configuration
 @EnableOAuth2Client
 @EnableWebSecurity
@@ -44,8 +46,10 @@ class OAuthConfiguration extends WebSecurityConfigurerAdapter {
     details.setAccessTokenUri(accessTokenUri)
 
     val l : Array[String] = accessScope.split(",").map(_.trim)
-    import collection.JavaConversions._
-    val m: java.util.List[String] = l.toSeq
+
+    val m = JavaConverters.seqAsJavaList(l)
+    //import collection.JavaConversions._
+    //val m: java.util.List[String] = l.toSeq
 
     details.setScope(m)
     details
