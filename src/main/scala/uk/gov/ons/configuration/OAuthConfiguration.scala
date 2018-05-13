@@ -1,8 +1,7 @@
 package uk.gov.ons.configuration
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.context.properties.ConfigurationProperties
-import org.springframework.context.annotation.{Bean, Configuration, PropertySource}
+import org.springframework.context.annotation.{Bean, Configuration}
 import org.springframework.security.config.annotation.web.builders.{HttpSecurity, WebSecurity}
 import org.springframework.security.config.annotation.web.configuration.{EnableWebSecurity, WebSecurityConfigurerAdapter}
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails
@@ -15,21 +14,19 @@ import scala.collection.JavaConverters
 @Configuration
 @EnableOAuth2Client
 @EnableWebSecurity
-@ConfigurationProperties
-@PropertySource(Array("classpath:application.yaml"))
 class OAuthConfiguration extends WebSecurityConfigurerAdapter {
 
   @Value("${oauth.clientId}")
-   var clientId : String = _
+  var clientId: String = _
 
   @Value("${oauth.clientSecret}")
-   var clientSecret : String = _
+  var clientSecret: String = _
 
   @Value("${oauth.accessTokenUri}")
-   var accessTokenUri : String = _
+  var accessTokenUri: String = _
 
   @Value("${oauth.scope}")
-  var accessScope : String = _
+  var accessScope: String = _
 
   @throws[Exception]
   override def configure(web: WebSecurity): Unit = {
@@ -42,13 +39,14 @@ class OAuthConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  def oAuth2ProtectedResourceDetails () : OAuth2ProtectedResourceDetails = {
-    val details : ClientCredentialsResourceDetails = new ClientCredentialsResourceDetails
+  def oAuth2ProtectedResourceDetails(): OAuth2ProtectedResourceDetails = {
+    val details: ClientCredentialsResourceDetails =
+      new ClientCredentialsResourceDetails
     details.setClientId(clientId)
     details.setClientSecret(clientSecret)
     details.setAccessTokenUri(accessTokenUri)
 
-    val l : Array[String] = accessScope.split(",").map(_.trim)
+    val l: Array[String] = accessScope.split(",").map(_.trim)
 
     val m = JavaConverters.seqAsJavaList(l)
 
