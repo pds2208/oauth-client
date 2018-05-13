@@ -1,7 +1,8 @@
 package uk.gov.ons.configuration
 
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.{Bean, Configuration}
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.context.annotation.{Bean, Configuration, PropertySource}
 import org.springframework.security.config.annotation.web.builders.{HttpSecurity, WebSecurity}
 import org.springframework.security.config.annotation.web.configuration.{EnableWebSecurity, WebSecurityConfigurerAdapter}
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails
@@ -14,6 +15,8 @@ import scala.collection.JavaConverters
 @Configuration
 @EnableOAuth2Client
 @EnableWebSecurity
+@ConfigurationProperties
+@PropertySource(Array("classpath:application.yaml"))
 class OAuthConfiguration extends WebSecurityConfigurerAdapter {
 
   @Value("${oauth.clientId}")
@@ -48,8 +51,6 @@ class OAuthConfiguration extends WebSecurityConfigurerAdapter {
     val l : Array[String] = accessScope.split(",").map(_.trim)
 
     val m = JavaConverters.seqAsJavaList(l)
-    //import collection.JavaConversions._
-    //val m: java.util.List[String] = l.toSeq
 
     details.setScope(m)
     details
