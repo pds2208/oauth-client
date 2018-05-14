@@ -1,6 +1,6 @@
-package uk.gov.ons.configuration
+package uk.gov.ons.oauth.configuration
 
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.{Bean, Configuration}
 import org.springframework.security.config.annotation.web.builders.{HttpSecurity, WebSecurity}
 import org.springframework.security.config.annotation.web.configuration.{EnableWebSecurity, WebSecurityConfigurerAdapter}
@@ -14,19 +14,7 @@ import scala.collection.JavaConverters
 @Configuration
 @EnableOAuth2Client
 @EnableWebSecurity
-class OAuthConfiguration extends WebSecurityConfigurerAdapter {
-
-  @Value("${oauth.clientId}")
-  var clientId: String = _
-
-  @Value("${oauth.clientSecret}")
-  var clientSecret: String = _
-
-  @Value("${oauth.accessTokenUri}")
-  var accessTokenUri: String = _
-
-  @Value("${oauth.scope}")
-  var accessScope: String = _
+class OAuthConfiguration (@Autowired val config: OAuthConfigurationProperties) extends WebSecurityConfigurerAdapter {
 
   @throws[Exception]
   override def configure(web: WebSecurity): Unit = {
@@ -42,11 +30,13 @@ class OAuthConfiguration extends WebSecurityConfigurerAdapter {
   def oAuth2ProtectedResourceDetails(): OAuth2ProtectedResourceDetails = {
     val details: ClientCredentialsResourceDetails =
       new ClientCredentialsResourceDetails
-    details.setClientId(clientId)
-    details.setClientSecret(clientSecret)
-    details.setAccessTokenUri(accessTokenUri)
+    details.setClientId(config.clientId)
+    details.setClientSecret(config.clientSecret)
+    details.setAccessTokenUri(config.accessTokenUri)
 
-    val l: Array[String] = accessScope.split(",").map(_.trim)
+    val l: Array[String] = config.scope
+      .split(",")
+      .map(_.trim)
 
     val m = JavaConverters.seqAsJavaList(l)
 

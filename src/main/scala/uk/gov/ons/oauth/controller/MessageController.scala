@@ -1,4 +1,4 @@
-package uk.gov.ons.controller
+package uk.gov.ons.oauth.controller
 
 import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.http.MediaType

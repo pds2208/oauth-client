@@ -1,12 +1,12 @@
-package uk.gov.ons
+package uk.gov.ons.oauth
 
 import javax.net.ssl.SSLSession
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.ComponentScan
-import uk.gov.ons.configuration.OAuthConfiguration
-import uk.gov.ons.controller.MessageController
+import uk.gov.ons.oauth.configuration.OAuthConfiguration
+import uk.gov.ons.oauth.controller.MessageController
 
 object OAuthClient {
   def main(args: Array[String]): Unit = {
