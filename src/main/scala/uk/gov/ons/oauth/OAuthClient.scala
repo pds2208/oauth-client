@@ -3,10 +3,6 @@ package uk.gov.ons.oauth
 import javax.net.ssl.SSLSession
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.context.annotation.ComponentScan
-import uk.gov.ons.oauth.configuration.OAuthConfiguration
-import uk.gov.ons.oauth.controller.MessageController
 
 object OAuthClient {
   def main(args: Array[String]): Unit = {
@@ -15,10 +11,6 @@ object OAuthClient {
 }
 
 @SpringBootApplication
-@EnableConfigurationProperties(Array(classOf[OAuthConfiguration]))
-@ComponentScan(
-  basePackageClasses =
-    Array(classOf[MessageController], classOf[OAuthConfiguration]))
 class OAuthClient {
 
   /** For localhost testing.

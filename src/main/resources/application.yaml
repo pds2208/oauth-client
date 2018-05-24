@@ -19,7 +19,7 @@ logging.level.org.keycloak : trace
 
 oauth:
   clientId: product-service
-  clientSecret: 6d30a0b4-eec5-417c-b2d5-b18a1b11e8f1
+  clientSecret: 9014b72f-f8d1-4e8b-9db9-877e56f5ab9f
   accessTokenUri: http://localhost:8180/auth/realms/SpringBoot/protocol/openid-connect/token
 
 ---
